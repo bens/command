@@ -32,10 +32,7 @@ instance Applicative m => Applicative (Command m) where
   pure =
     Command . pure . Right
   Command mf <*> Command mx =
-    Command (g <$> mf <*> mx) where
-      g (Left ef)         _ = Left ef
-      g (Right _) (Left ex) = Left ex
-      g (Right f) (Right x) = Right (f x)
+    Command (ap <$> mf <*> mx)
 
 instance Monad m => Monad (Command m) where
   return =
